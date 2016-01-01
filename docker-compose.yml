@@ -1,0 +1,10 @@
+app:
+  build: .
+  environment:
+    MONGO_URL: 'mongodb://mongo/arma-stats'
+  links:
+    - mongo:mongo
+  ports:
+    - 3000:3000
+mongo:
+  image: mongo
