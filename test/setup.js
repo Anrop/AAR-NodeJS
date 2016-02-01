@@ -4,6 +4,10 @@ var mockgoose = require('mockgoose');
 
 mockgoose(mongoose);
 
+afterEach(function (done) {
+  mockgoose.reset(done);
+});
+
 var app = require('../app');
 var server = http.createServer(app);
 

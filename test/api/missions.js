@@ -6,10 +6,6 @@ var app = require('../setup').app;
 var Mission = mongoose.model('Mission');
 
 describe('missions', function () {
-  beforeEach(function (done) {
-    Mission.remove(done);
-  });
-
   describe('empty', function () {
     it('should return empty missions', function (done) {
       request(app)
