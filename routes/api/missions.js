@@ -16,6 +16,22 @@ router.get('/', function(req, res) {
   });
 });
 
+router.post('/', function(req, res) {
+  var mission = new Mission(req.body);
+  mission.host = req.ip;
+  mission.save(function (err) {
+    if(err) {
+      res.status(400).json({
+        error: err.message,
+      });
+    } else {
+      res.json({
+        mission: mission,
+      });
+    }
+  });
+});
+
 router.use('/:id', function (req, res, next) {
   Mission.findById(req.params.id, function(err, mission) {
     if(err) {

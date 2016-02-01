@@ -47,4 +47,51 @@ describe('missions', function () {
         });
     });
   });
+
+  describe('create', function () {
+    var missionName = 'Test Mission';
+
+    it('should create mission', function (done) {
+      request(app)
+        .post('/api/missions')
+        .send({ name: missionName })
+        .expect(200)
+        .end(function (err, res) {
+          should.not.exist(err);
+          should.exist(res.body.mission);
+
+          var mission = res.body.mission;
+
+          should.exist(mission.name);
+          mission.name.should.eql(missionName);
+          should.exist(mission.host);
+          mission.host.should.not.be.empty();
+
+          Mission.findOne(mission._id, function (err, mission) {
+            should.not.exist(err);
+            should.exist(mission);
+
+            should.exist(mission.name);
+            mission.name.should.eql(missionName);
+            should.exist(mission.host);
+            mission.host.should.not.be.empty();
+
+            done();
+          });
+        });
+    });
+
+    it('should not create mission without name', function (done) {
+      request(app)
+        .post('/api/missions')
+        .send({})
+        .expect(400)
+        .end(function (err, res) {
+          should.not.exist(res.body.mission);
+          should.exist(res.body.error);
+
+          done();
+        });
+    });
+  });
 });
